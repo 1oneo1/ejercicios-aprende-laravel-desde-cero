@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
+use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -21,32 +25,39 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Ejercicio 1
-
-Route::get('/ejercicio1', function () {
-    return "GET OK";
-});
-
-Route::post('/ejercicio1', function () {
-    return "POST OK";
-});
-
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::get('/contact', function () {
-//     return Response::view('contact');
+Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+Route::post('/ejercicio3', [ContactController::class, 'store'])->name('contacts.store');
+
+
+
+
+
+// Route::get('/contact', fn () => Response::view('contact'));
+
+// Route::post('/contact', function (Request $request) {
+//     $data = $request->all();
+
+//     // $contact = new Contact();
+//     // $contact->name = $data['name'];
+//     // $contact->phone_number = $data['phone_number'];
+//     // $contact->save();
+
+//     Contact::create($data);
+
+//     return "Contacto guardado";
 // });
 
-// PHP 8.0+
-Route::get('/contact', fn () => Response::view('contact'));
 
-Route::post('/contact', function (Request $request) {
-    // dd($request);
-    return Response::json(["message" => "Hola"])->setStatusCode(400);
-});
 
+
+
+
+// Ejercicio 2
 Route::post('/ejercicio2/a', function (Request $request) {
     return Response::json($request);
 });
@@ -89,3 +100,53 @@ Route::post('/ejercicio2/c', function (Request $request) {
 
     return Response::json($response);
 });
+// FIN Ejercicio 2
+
+// Ejercicio 1
+Route::get('/ejercicio1', function () {
+    return "GET OK";
+});
+
+Route::post('/ejercicio1', function () {
+    return "POST OK";
+});
+// FIN Ejercicio 1
+
+// CSRF
+// Route::get('/change-password', fn () => Response::view('change-password'));
+// Route::post('/change-password', function (Request $request) {
+//     if (Auth::check()) {
+//         return new HttpResponse("Autenticado");
+//     } else {
+//         return (new HttpResponse("NO Autenticado"))->setStatusCode(401);
+//     }
+// });
+
+// Usar métodos de Laravel
+// Route::post('/change-password', function (Request $request) {
+//     if (auth()->check()) {
+//         return response("Contraseña cambiada a {$request->get('password')}");
+//     } else {
+//         return response("NO Autenticado", 401);
+//     }
+// });
+// FIN CSRF
+
+
+// Route::get('/contact', function () {
+//     return Response::view('contact');
+// });
+
+// Guardar contactos con SQL
+// PHP 8.0+ Función de flecha
+// Route::get('/contact', fn () => Response::view('contact'));
+
+// Route::post('/contact', function (Request $request) {
+//     $data = $request->all();
+//     // dd($data);
+//     // return Response::json(["message" => "Hola"])->setStatusCode(400);
+//     DB::statement("INSERT INTO contacts (name, phone_number) VALUES (?,?)", [$data['name'], $data['phone_number']]);
+
+//     return "Contacto guardado";
+// });
+// Guardar contactos con SQL
