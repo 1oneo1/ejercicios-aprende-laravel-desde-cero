@@ -31,7 +31,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 
-Route::post('/ejercicio3', [ContactController::class, 'store'])->name('contacts.store');
+Route::post('/ejercicio3', [ProductController::class, 'store'])->name('products.store');
 
 
 
