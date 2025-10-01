@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $contacts = auth()->user()->contacts;
+        return view('contacts.index', compact('contacts'));
     }
 
     /**
@@ -24,7 +26,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        return view('contact');
+        return view('contacts.create');
     }
 
     /**
@@ -33,21 +35,21 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        // $request->validate([
+        // $data = $request->validate([
         //     'name' => 'required',
         //     'phone_number' => 'required|digits:9',
         //     'email' => ['required', 'email'],
         //     'age' => ['required', 'numeric', 'min:1', 'max:255'],
         // ]);
 
-        $request->validate([
-            'name' => 'required',
-        ]);
+        // $data['user_id'] = auth()->id();
+        // Contact::create($data, [...$data, 'user_id' => auth()->id()]);
+        auth()->user()->contacts()->create($request->validated());
 
-        // Contact::create($request->all());
-        return response("Contacto guardado");
+        // return response("Contacto guardado");
+        return redirect()->route('home');
     }
 
     /**
@@ -58,7 +60,8 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        //
+        $this->authorize('view', $contact);
+        return view('contacts.show', compact('contact'));
     }
 
     /**
@@ -69,7 +72,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -79,9 +82,17 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(StoreContactRequest $request, Contact $contact)
     {
-        //
+        // $data = $request->validate([
+        //     'name' => 'required',
+        //     'phone_number' => 'required|digits:9',
+        //     'email' => ['required', 'email'],
+        //     'age' => ['required', 'numeric', 'min:1', 'max:255'],
+        // ]);
+
+        $contact->update($request->validated());
+        return redirect()->route('home');
     }
 
     /**
@@ -92,6 +103,7 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+        return redirect()->route('home');
     }
 }
