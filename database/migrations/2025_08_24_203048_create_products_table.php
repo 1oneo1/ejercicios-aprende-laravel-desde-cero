@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,11 +19,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->unsignedInteger('price');
-            $table->boolean('has_battery');
-            $table->unsignedSmallInteger('battery_duration');
-            $table->json('colors');
-            $table->json('dimensions');
-            $table->json('accessories');
+            // $table->boolean('has_battery');
+            // $table->unsignedSmallInteger('battery_duration');
+            // $table->json('colors');
+            // $table->json('dimensions');
+            // $table->json('accessories');
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

@@ -30,6 +30,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('contacts', ContactController::class);
 
+Route::resource('products', ProductController::class);
+
 // Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 // Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 // Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
@@ -39,6 +41,8 @@ Route::resource('contacts', ContactController::class);
 // Route::delete('/contacts/{contact}/', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
 Route::post('/ejercicio3', [ProductController::class, 'store'])->name('products.store');
+
+Route::post('/ejercicio4', [ProductController::class, 'store'])->name('products.store');
 
 
 
